@@ -1,4 +1,5 @@
 const express = require("express");
+const db = require("./database");
 const { v4: uuidv4 } = require("uuid");
 const app = express();
 const port = 8080;
@@ -9,6 +10,13 @@ let users = [];
 // Get all Users
 app.get("/users", (req, res) => {
   res.send(users);
+});
+
+app.get("/allusers", async (req, res) => {
+  const result = await db
+    .promise()
+    .query(`SELECT * FROM mhs_loginaccount limit 10`);
+  res.status(200).send(result[0]);
 });
 
 // Create a user
