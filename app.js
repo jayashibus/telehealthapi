@@ -19,6 +19,21 @@ app.get("/allusers", async (req, res) => {
   res.status(200).send(result[0]);
 });
 
+// Getting one User with id
+app.get("/allusers/:id/", async (req, res) => {
+  const { id } = req.params;
+
+  const result = await db
+    .promise()
+    .query(`SELECT * FROM mhs_loginaccount where USER_ID_C= ${id}`);
+  res.status(200).send(result[0]);
+
+  const foundUser = result.find((user) => user.id === id);
+
+  //res.send(foundUser);
+  res.status(200).send(foundUser);
+});
+
 // Create a user
 app.post("/users", (req, res) => {
   const createduser = req.body;
